@@ -1,0 +1,28 @@
+{
+  "name": "generator-hapijs",
+  "version": "1.0.0",
+  "description": "Yeoman generator for Hapi.js",
+  "author": "José Antonio González Rodríguez (Proversity.org Ltd)",
+  "homepage": "https://github.com/proversity-org/generator-hapijs#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/proversity-org/generator-hapijs.git"
+  },
+  "main": "app/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "yeoman-generator",
+    "hapi.js",
+    "javascript",
+    "Proversity"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^0.24.1"
+  }
+}
