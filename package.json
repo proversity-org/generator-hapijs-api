@@ -15,8 +15,7 @@
   },
   "files": [
     "generators/app",
-    "generators/routes",
-    "generators/schemas"
+    "generators/model"
   ],
   "keywords": [
     "yeoman-generator",
@@ -25,6 +24,7 @@
   ],
   "dependencies": {
     "chalk": "^1.1.3",
+    "html-wiring": "^1.2.0",
     "lodash": "^4.17.2",
     "mkdirp": "^0.5.1",
     "yeoman-generator": "^0.24.1",

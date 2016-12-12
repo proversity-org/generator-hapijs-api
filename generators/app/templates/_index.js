@@ -65,6 +65,8 @@ server.route({
   }
 });
 
+// ----- yeoman hook routes -----
+
 // Setup console
 server.register({
   register: Good,

@@ -11,7 +11,10 @@
     "jshint": "./node_modules/jshint/bin/jshint -c .jshintrc --exclude-path .gitignore .",
     "report": "open coverage/lcov-report/index.html"
   },
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "<%= repo %>"
+  },
   "keywords": [],
   "author": "<%= author %>",
   "dependencies": {},

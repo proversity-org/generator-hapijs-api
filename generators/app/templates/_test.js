@@ -33,6 +33,11 @@ var lab = exports.lab = Lab.script({ globals: [ coverageVar ]});
 
 lab.experiment("Tests", function() {
 
+  var token = null;
+  var getToken = function(){
+    return token;
+  };
+
   // ------ INDEX ------
 
 	lab.test("GET /", { timeout: 20000 }, function(done) {
@@ -42,4 +47,6 @@ lab.experiment("Tests", function() {
       done();
     });
   });
+
+  // ----- yeoman hook tests -----
 });

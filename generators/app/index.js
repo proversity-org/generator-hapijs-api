@@ -15,15 +15,15 @@ module.exports = generators.Base.extend({
     this.pkg = require('../../package.json');
   },
   prompting: function() {
-  	this.log(yosay('Welcome to hapi.js project generator.'));
+    var welcomeMessage = `Welcome to ${chalk.yellow.bold('hapijs')} generator.`
+  	this.log(yosay(welcomeMessage));
 
   	var prompts = [{
       type: 'input',
       name: 'name',
       message: 'Project name',
       default: "app"
-    },
-    {
+    },{
       type: 'input',
       name: 'version',
       message: 'Version',
@@ -44,6 +44,11 @@ module.exports = generators.Base.extend({
       message: 'Author',
       default: ''
     },{
+      type: 'input',
+      name: 'repo',
+      message: 'Git repo',
+      default: 'https://github.com'
+    },{
       type: 'confirm',
       name: 'includeAWS',
       message: 'Would you like to include AWS npm module?',
@@ -53,8 +58,8 @@ module.exports = generators.Base.extend({
     return this.prompt(prompts)
     	.then(function(answers) {
     		this.name 				= _.replace(_.toLower(answers.name), " ", "-");
-    		this.version 			= _.toLower(answers.version);
-    		this.description 	= _.toLower(answers.description);
+    		this.version 			= answers.version;
+    		this.description 	= answers.description;
     		this.main	 				= _.toLower(answers.main);
     		this.includeAWS   = answers.includeAWS;
     	}.bind(this));
@@ -69,15 +74,19 @@ module.exports = generators.Base.extend({
   				version: this.version,
   				description: this.description,
   				main: this.main,
-  				author: this.author
+  				author: this.author,
+          repo: this.repo
   			}
   		);
+
+      this.config.set({'server': this.main});
   	},
   	env: function() {
   		this.fs.copyTpl(
-  			this.templatePath('_env.js'),
+  			this.templatePath('config/_env.js'),
   			this.destinationPath('env.js'),
   			{
+          includeAWS: this.includeAWS,
   				name: this.name
   			}
   		);
@@ -90,13 +99,13 @@ module.exports = generators.Base.extend({
   	},
   	gitignore: function() {
   		this.fs.copyTpl(
-  			this.templatePath('_gitignore'),
+  			this.templatePath('config/_gitignore'),
   			this.destinationPath('.gitignore')
   		);
   	},
   	circle: function() {
   		this.fs.copyTpl(
-  			this.templatePath('_circle.yml'),
+  			this.templatePath('config/_circle.yml'),
   			this.destinationPath('circle.yml')
   		);
   	},
@@ -110,22 +119,97 @@ module.exports = generators.Base.extend({
   			}
   		);
   	},
+    readMe: function() {
+      this.fs.copyTpl(
+        this.templatePath('config/_README.md'),
+        this.destinationPath('README.md'),
+        {
+          name: this.name,
+          description: this.description,
+        }
+      );
+    },
+    jshintrc: function() {
+      this.fs.copyTpl(
+        this.templatePath('config/_jshintrc'),
+        this.destinationPath('.jshintrc')
+      );
+    },
+    fixtures: function() {
+      mkdirp.sync('fixtures');
+      this.fs.copyTpl(
+        this.templatePath('fixtures/development.js'),
+        this.destinationPath('fixtures/development.js')
+      );
+      this.fs.copyTpl(
+        this.templatePath('fixtures/testing.js'),
+        this.destinationPath('fixtures/testing.js')
+      );
+      this.fs.copyTpl(
+        this.templatePath('fixtures/production.js'),
+        this.destinationPath('fixtures/production.js')
+      );
+    },
+    aws: function() {
+      mkdirp.sync('.aws');
+      this.fs.copyTpl(
+        this.templatePath('config/_awsConfig'),
+        this.destinationPath('.aws/config')
+      );
+    },
+    elasticbeanstalk: function() {
+      mkdirp.sync('.elasticbeanstalk');
+      this.fs.copyTpl(
+        this.templatePath('config/_elasticbeanstalk.yml'),
+        this.destinationPath('.elasticbeanstalk/config.yml')
+      );
+    },
+    nginx: function() {
+      mkdirp.sync('.ebextensions/nginx/conf.d');
+      this.fs.copyTpl(
+        this.templatePath('config/_cors.conf'),
+        this.destinationPath('.ebextensions/nginx/conf.d/cors.conf')
+      );
+    },
   	generateFolders: function() {
+      mkdirp.sync('coverage');
   		mkdirp.sync('lib');
   		mkdirp.sync('routes');
   		mkdirp.sync('schemas');
+      mkdirp.sync('test/routes');
+
+      this.fs.copyTpl(
+        this.templatePath('config/_gitkeep'),
+        this.destinationPath('.aws/.gitkeep')
+      );
+      this.fs.copyTpl(
+        this.templatePath('config/_gitkeep'),
+        this.destinationPath('.ebextensions/.gitkeep')
+      );
+      this.fs.copyTpl(
+        this.templatePath('config/_gitkeep'),
+        this.destinationPath('.elasticbeanstalk/.gitkeep')
+      );
+      this.fs.copyTpl(
+        this.templatePath('config/_gitkeep'),
+        this.destinationPath('coverage/.gitkeep')
+      );
   		this.fs.copyTpl(
-  			this.templatePath('_gitkeep'),
+  			this.templatePath('config/_gitkeep'),
   			this.destinationPath('lib/.gitkeep')
   		);
   		this.fs.copyTpl(
-  			this.templatePath('_gitkeep'),
+  			this.templatePath('config/_gitkeep'),
   			this.destinationPath('routes/.gitkeep')
   		);
   		this.fs.copyTpl(
-  			this.templatePath('_gitkeep'),
+  			this.templatePath('config/_gitkeep'),
   			this.destinationPath('schemas/.gitkeep')
   		);
+      this.fs.copyTpl(
+        this.templatePath('config/_gitkeep'),
+        this.destinationPath('test/routes/.gitkeep')
+      );
   	},
   },
   install: function() {
@@ -151,16 +235,15 @@ module.exports = generators.Base.extend({
   		], { 'save-dev': true });
   },
   end: function () {
+    var endMessage = `The generator ${chalk.yellow.bold('finish')} the ${chalk.yellow.bold('setup')} of your project.\n\n`
     var howToRun =
-      '\To run your project ' +
-      chalk.yellow.bold('npm start')
+      '\To run your project use ' +
+      chalk.yellow.bold('npm start') + '\n\n'
 
      var howToTest =
-      '\To test your project ' +
-      chalk.yellow.bold('npm test')
+      '\To test your project use ' +
+      chalk.yellow.bold('npm test') + '\n\n'
 
-    this.log(yosay(howToRun));
-    this.log(yosay(howToTest));
-    this.log(yosay('Enjoy!'));
+    this.log(yosay(endMessage + howToRun + howToTest));
   }
 });
