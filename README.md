@@ -1,19 +1,21 @@
-# generator-hapijs
+# generator-hapijs-api
 
-Yeoman generator for Hapi.js
+Yeoman generator for craeting an API with Hapi.js
 
-## Setup
+## Installation
 
 `npm install -g yo`
 
 `npm install -g generator-hapijs`
 
-## Use
+## Setup
 
 `yo hapijs`
 
 This will create the basic structure of a Hapi.js project.
 
+## Actions
+
 `yo hapijs:model`
 
-This will create 3 files, a route, schema and test file.
+This will create 3 files, a route, schema and test file for your model.
