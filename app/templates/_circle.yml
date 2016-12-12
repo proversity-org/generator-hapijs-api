@@ -1,0 +1,27 @@
+general:
+    branches:
+        only:
+            - master
+
+machine:
+  environment:
+    NODE_ENV: testing
+
+dependencies:
+  pre:
+    - sudo apt-get update
+    - sudo apt-get install python-dev --fix-missing
+    - sudo pip install 'awsebcli==3.7.4'
+    - cp -r .aws ~/.aws
+  override:
+    - npm install
+
+test:
+  override:
+    - npm test
+
+deployment:
+  elasticbeanstalk:
+    branch: master
+    commands:
+      - eb deploy
