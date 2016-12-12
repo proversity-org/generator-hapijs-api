@@ -1,0 +1,19 @@
+{
+  "name": "<%= name %>",
+  "version": "<%= version %>",
+  "description": "<%= description %>",
+  "main": "<%= main %>",
+  "scripts": {
+    "start": "./node_modules/nodemon/bin/nodemon.js <%= main %>.js",
+    "test": "NODE_ENV=testing istanbul cover ./node_modules/tape/bin/tape ./test/test.js",
+    "quick": "NODE_ENV=testing ./node_modules/tape/bin/tape ./test/test.js",
+    "coverage": "istanbul cover ./node_modules/tape/bin/tape ./test/test.js && istanbul check-coverage --statements 100 --functions 100 --lines 100 --branches 100",
+    "jshint": "./node_modules/jshint/bin/jshint -c .jshintrc --exclude-path .gitignore .",
+    "report": "open coverage/lcov-report/index.html"
+  },
+  "repository": {},
+  "keywords": [],
+  "author": "<%= author %>",
+  "dependencies": {},
+  "devDependencies": {}
+}

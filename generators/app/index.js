@@ -2,6 +2,8 @@
 'use strict';
 
 const generators = require('yeoman-generator');
+var chalk = require('chalk');
+var mkdirp = require('mkdirp');
 const yosay = require('yosay');
 const _ = require('lodash');
 
@@ -10,7 +12,7 @@ module.exports = generators.Base.extend({
 		generators.Base.apply(this, arguments);
 	},
 	initializing: function () {
-    this.pkg = require('../package.json');
+    this.pkg = require('../../package.json');
   },
   prompting: function() {
   	this.log(yosay('Welcome to hapi.js project generator.'));
@@ -54,8 +56,7 @@ module.exports = generators.Base.extend({
     		this.version 			= _.toLower(answers.version);
     		this.description 	= _.toLower(answers.description);
     		this.main	 				= _.toLower(answers.main);
-
-    		this.log(this.name, this.version, this.description, this.main);
+    		this.includeAWS   = answers.includeAWS;
     	}.bind(this));
   },
   writing: {
@@ -99,8 +100,36 @@ module.exports = generators.Base.extend({
   			this.destinationPath('circle.yml')
   		);
   	},
-  	installDependencies: function() {
-  		this.npmInstall([
+  	test: function() {
+  		this.fs.copyTpl(
+  			this.templatePath('_test.js'),
+  			this.destinationPath('test/test.js'),
+  			{
+  				includeAWS: this.includeAWS,
+  				main: this.main
+  			}
+  		);
+  	},
+  	generateFolders: function() {
+  		mkdirp.sync('lib');
+  		mkdirp.sync('routes');
+  		mkdirp.sync('schemas');
+  		this.fs.copyTpl(
+  			this.templatePath('_gitkeep'),
+  			this.destinationPath('lib/.gitkeep')
+  		);
+  		this.fs.copyTpl(
+  			this.templatePath('_gitkeep'),
+  			this.destinationPath('routes/.gitkeep')
+  		);
+  		this.fs.copyTpl(
+  			this.templatePath('_gitkeep'),
+  			this.destinationPath('schemas/.gitkeep')
+  		);
+  	},
+  },
+  install: function() {
+  	this.npmInstall([
   			'bluebird',
   			'boom',
   			'good',
@@ -115,10 +144,23 @@ module.exports = generators.Base.extend({
   			'code',
   			'istanbul',
   			'jshint',
+  			'lab',
   			'nodemon',
   			'pow-mongoose-fixtures',
   			'tape'
   		], { 'save-dev': true });
-  	}
+  },
+  end: function () {
+    var howToRun =
+      '\To run your project ' +
+      chalk.yellow.bold('npm start')
+
+     var howToTest =
+      '\To test your project ' +
+      chalk.yellow.bold('npm test')
+
+    this.log(yosay(howToRun));
+    this.log(yosay(howToTest));
+    this.log(yosay('Enjoy!'));
   }
 });
