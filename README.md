@@ -25,22 +25,22 @@ project
 └───.ebextensions
 │   └──nginx
 │       └───conf.d
-│   		│   cors.conf
-│	.gitignore
-│	.jshintrc
+│   		    │   cors.conf
+│	  .gitignore
+│	  .jshintrc
 │   circle.yml
 │───coverage
-│   │   .gitkeep│
-│	env.js
+│   │   .gitkeep
+│	  env.js
 └───fixtures
 │   │   development.js
 │   │   production.js
 │   │   testing.js
-│	index.js
+│	  index.js
 │───lib
 │   │   .gitkeep
 └───node_modules
-│	package.json
+│	  package.json
 │   README.md
 └───routes
 │   │   .gitkeep
