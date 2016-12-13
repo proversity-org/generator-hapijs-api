@@ -1,6 +1,6 @@
 {
   "name": "generator-hapijs-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Yeoman generator for creating an API with Hapi.js",
   "author": "José Antonio González Rodríguez (Proversity.org Ltd)",
   "homepage": "https://github.com/proversity-org/generator-hapijs-api#readme",
@@ -20,7 +20,8 @@
   "keywords": [
     "yeoman-generator",
     "hapi.js",
-    "javascript"
+    "javascript",
+    "API"
   ],
   "dependencies": {
     "chalk": "^1.1.3",

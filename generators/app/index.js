@@ -22,7 +22,7 @@ module.exports = generators.Base.extend({
       type: 'input',
       name: 'name',
       message: 'Project name',
-      default: "app"
+      default: this.appname
     },{
       type: 'input',
       name: 'version',
@@ -178,18 +178,6 @@ module.exports = generators.Base.extend({
   		mkdirp.sync('schemas');
       mkdirp.sync('test/routes');
 
-      this.fs.copyTpl(
-        this.templatePath('config/_gitkeep'),
-        this.destinationPath('.aws/.gitkeep')
-      );
-      this.fs.copyTpl(
-        this.templatePath('config/_gitkeep'),
-        this.destinationPath('.ebextensions/.gitkeep')
-      );
-      this.fs.copyTpl(
-        this.templatePath('config/_gitkeep'),
-        this.destinationPath('.elasticbeanstalk/.gitkeep')
-      );
       this.fs.copyTpl(
         this.templatePath('config/_gitkeep'),
         this.destinationPath('coverage/.gitkeep')
