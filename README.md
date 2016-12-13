@@ -6,7 +6,7 @@ Yeoman generator for craeting an API with Hapi.js
 
 `npm install -g yo`
 
-`npm install -g generator-hapijs`
+`npm install -g generator-hapijs-api`
 
 ## Setup
 
