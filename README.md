@@ -1,6 +1,6 @@
 # generator-hapijs-api
 
-Yeoman generator for craeting an API with Hapi.js
+Yeoman generator for creating an API with Hapi.js
 
 ## Installation
 
