@@ -1,6 +1,6 @@
 {
   "name": "generator-hapijs-api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Scaffold out a REST API with hapijs.",
   "author": "José Antonio González Rodríguez <antonio@proversity.org> (https://www.proversity.org)",
   "homepage": "https://github.com/proversity-org/generator-hapijs-api",
